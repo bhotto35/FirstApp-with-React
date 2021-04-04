@@ -1,6 +1,7 @@
-//import 'react-native-gesture-handler';
+
 import React from 'react';
 import {StyleSheet,Dimensions,TouchableHighlight, Text, View, ScrollView, Button, Image, ImageBackground, Easing} from 'react-native';
+import {Avatar, Title, Caption, Paragraph, Drawer as DW, Text as TextD, TouchableRipple, Switch} from 'react-native-paper';
 import {NavigationContainer, useIsFocused,getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createStackNavigator,TransitionPresets,CardStyleInterpolators} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -162,7 +163,8 @@ const FeedScreen = ({navigation,route})=>{
         textAlign:'center',
         fontWeight:'bold',
         color:'white',
-        paddingTop:10,
+        paddingTop:15,
+        paddingBottom:5,
         textShadowOffset:{width:10,height:10},
         elevation:10,
         backgroundColor:'rgba(50,50,50,1)'}}>
@@ -204,7 +206,7 @@ const FeedScreen = ({navigation,route})=>{
           <TouchableHighlight onPress={() => alert('He wishes you fortune at the end of your long, wearisome path')}>
             <Image source={require('./bground_img/nice2.png')} style={{width:200,height:220}}/>
           </TouchableHighlight> 
-          <Text>{'\n'}Brother wishes Luck</Text>
+          <Text>{'\n'}Big Brother</Text>
         </View>
         <Text>{'\n\n\n'}</Text>
         <View style={{width:250,
@@ -227,10 +229,10 @@ const FeedScreen = ({navigation,route})=>{
           shadowOffset:{width:10,height:10},
           elevation:10,
           alignItems:'center'}}>
-          <TouchableHighlight onPress={() => alert('He smiles through tears when you acknowledge his worth')}>
+          <TouchableHighlight onPress={() => alert('He sees the good things in tough times')}>
             <Image source={require('./bground_img/pained.png')} style={{width:200,height:220}}/>
           </TouchableHighlight> 
-          <Text>{'\n'}At Last</Text>
+          <Text>{'\n'}John Sedlyf</Text>
         </View>
         <Text>{'\n\n\n'}</Text>
         <View style={{width:250,
@@ -243,7 +245,7 @@ const FeedScreen = ({navigation,route})=>{
           <TouchableHighlight onPress={() => alert("He's done putting up with your sh*t")}>
             <Image source={require('./bground_img/bacchaman.png')} style={{width:200,height:220}}/>
           </TouchableHighlight> 
-          <Text>{'\n'}OK</Text>
+          <Text>{'\n'}Disappointed Kidman</Text>
         </View>
         </ScrollView>
     </ImageBackground>
@@ -311,25 +313,14 @@ const HomeTabNavigator = ()=> (
   </Tab.Navigator>
 );
 
-const config = {
-  animation: 'spring',
-  config: {
-    stiffness: 1000,
-    damping: 50,
-    mass: 3,
-    overshootClamping: false,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
+function Drawer_Content(props){
+  return(
+    <View>
+      <Text>test Text</Text>
+    </View>
 
-const closeConfig = {
-  animation: 'timing',
-  config: {
-    duration:500,
-    easing:Easing.linear
-  },
-};
+  );
+}
 
 function getHeaderTitle(route)
 {
@@ -357,41 +348,9 @@ function shouldHeaderBeShown(route)
 
 const App= ({navigation}) => {
   return(
-    /*<View>
-      <Text>
-        Just some text, and some more text. Text to test update after reload
-      </Text>
-    </View>*/
     <NavigationContainer >
-      {/* <Stack.Navigator initialRouteName = "Home" 
-      screenOptions = {{
-        gestureEnabled: true,
-        gestureDirection:'vertical',
-        ...TransitionPresets.FadeFromBottomAndroid
-        //cardStyleInterpolator:CardStyleInterpolators.forFadeFromBottomAndroid
-        //transitionSpec:{open:config,close:config}
-      }}
-      headerMode='float'//this is for when we want the header to remain fixed 
-      animation = 'fade' >
-        
-        <Stack.Screen name = "Home" options={({route})=>({
-          title:getHeaderTitle(route),
-          headerShown: shouldHeaderBeShown(route)
-        })} {{
-          title: 'Home Screen', 
-          headerRight: ({navigation})=> (
-          <Button
-            title = "Alert"
-            onPress = {() =>{alert('Hmm')}}
-          />)
-        }}
-        component = {HomeTabNavigator} style={{alignText:"center"}}/>
-        <Stack.Screen name = "Settings" 
-        options={{title: 'Settings'}}
-        component = {SettingsScreen}/>
-      </Stack.Navigator> */}
       <Drawer.Navigator initialRouteName="Home" 
-        drawerStyle = {{backgroundColor:'white'}} 
+        drawerContent = {props=><Drawer_Content {...props} /> }
       >
         <Drawer.Screen name="Home" component={HomeTabNavigator/*HomeStackScreen*/}/>
         <Drawer.Screen name="Details" component={DetailsStackScreen} />
@@ -401,8 +360,48 @@ const App= ({navigation}) => {
 };
 export default App;
 
-const Styles = StyleSheet.create({
-  bgcolor:{
-    backgroundColor: 'rgb(52, 150, 52)'
-  }
-})
+const styles = StyleSheet.create({
+  drawerContent: {
+    flex: 1,
+  },
+  userInfoSection: {
+    paddingLeft: 20,
+  },
+  title: {
+    fontSize: 16,
+    marginTop: 3,
+    fontWeight: 'bold',
+  },
+  caption: {
+    fontSize: 14,
+    lineHeight: 14,
+  },
+  row: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  paragraph: {
+    fontWeight: 'bold',
+    marginRight: 3,
+  },
+  drawerSection: {
+    marginTop: 15,
+  },
+  bottomDrawerSection: {
+      marginBottom: 15,
+      borderTopColor: '#f4f4f4',
+      borderTopWidth: 1
+  },
+  preference: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+});
