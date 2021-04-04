@@ -3,13 +3,17 @@ import React from 'react';
 import {StyleSheet,Dimensions,TouchableHighlight, Text, View, ScrollView, Button, Image, ImageBackground, Easing} from 'react-native';
 import {Avatar, Title, Caption, Paragraph, Drawer as DW, Text as TextD, TouchableRipple, Switch} from 'react-native-paper';
 import {NavigationContainer, useIsFocused,getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {createStackNavigator,TransitionPresets,CardStyleInterpolators} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 //import Icon from 'react-native-ionicons';
 //import find from './icons/find.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {DrawerContent} from './screens/Drawer';
+import ProfileStackScreen from './screens/Profile'; 
+import BookmarkStackScreen from './screens/Bookmark';
+import FeedScreen from './screens/Feed';
 //import {Ionicons} from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
@@ -20,38 +24,19 @@ const Drawer = createDrawerNavigator();
 
 //--FIRST FUNCTION THAT DOESN'T UPDATE TITLE-----//
 const HomeScreen = ({navigation}) =>{
-  /*navigation.setOptions({
-    headerRight: ()=> (
-    <Button
-      title = "Save"
-      onPress = {() =>{navigation.replace('Home')}}
-    />)
-  });*/
   return (<View style={{
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: 'rgb(52,50,70)'
   }} >
-    <Text style={{color: 'lawngreen', fontFamily: "Arial",fontSize: 24}}>Home Screen {"\n"}</Text>
+    <Text style={{color: 'lawngreen', fontFamily: "Arial",fontSize: 24}}>Home {"\n"}</Text>
   <Button title="Go to Details screen" 
   color = 'orange'
   onPress={()=>navigation.navigate('Details')}/>
   
   </View>);
 }
-/*<Button title = "Save" onPress = {() =>{navigation.replace('Home')}}/>*/
-
-//-----FOR AUTO UPDATE OF TITLE-----//
-/*const HomeScreen = ({navigation}) =>(
-  <View style={{
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  }}><Text style={{color: 'green', fontSize: 24}}>Home Screen</Text>
-  <Button title="Go to Settings screen" onPress={()=>navigation.setOptions({title: 'My Home Screen'})}/>
-  </View>
-)*/
 
 const HomeStackScreen = ({navigation}) =>{
   return(
@@ -81,7 +66,7 @@ const HomeStackScreen = ({navigation}) =>{
 
 const DetailsStackScreen = ({navigation}) =>{
   return(
-    <Stack.Navigator name = "Details" 
+    <Stack.Navigator initialRouteName = "Details" 
       screenOptions = {{
         headerStyle : { shadowColor : 'violet', shadowOffset:3,backgroundColor:'darkgreen'},
         headerTintColor : 'white',
@@ -97,8 +82,7 @@ const DetailsStackScreen = ({navigation}) =>{
             <Icon.Button name = "list" backgroundColor="green" color="white"
             onPress = {()=>{navigation.openDrawer()}} />
           )
-        })} 
-        component = {DetailsScreen}/>
+        })} component = {DetailsScreen}/>
       </Stack.Navigator>
   );
 }
@@ -136,12 +120,6 @@ const DetailsScreen = (props)=>
 )
 
 const HomeStackNavigator = ({navigation,route})=>{
-  /*if(route.state)
-  {
-    navigation.setOptions({
-      tabBarVisible: route.state.index>0?true:false
-    })
-  }*/
   return(
     <HomeStack.Navigator /*screenOptions = {{headerShown: false}}/* not needed, as shouldHeaderBeShown already defined*/>
       <HomeStack.Screen name = "Home" component={HomeScreen}/>
@@ -150,125 +128,6 @@ const HomeStackNavigator = ({navigation,route})=>{
   );
 };
 
-const FeedScreen = ({navigation,route})=>{
-  return(
-  <View style={{
-    flex: 1,
-    justifyContent: 'center', 
-    alignItems: 'center'
-  }}>
-    <Text style={{width:Dimensions.get('window').width,
-        flex:1,
-        fontSize:20,
-        textAlign:'center',
-        fontWeight:'bold',
-        color:'white',
-        paddingTop:15,
-        paddingBottom:5,
-        textShadowOffset:{width:10,height:10},
-        elevation:10,
-        backgroundColor:'rgba(50,50,50,1)'}}>
-          Feed
-    </Text>
-    <ImageBackground source={require('./bground_img/hehelol.png')} style={{flex: 14, width:450,resizeMode: "cover"}}>
-      <ScrollView>
-      <Text style={{color: 'white', fontSize:30,top:20,textShadowOffset: { width: 10, height: 1 },
-        //textShadowColor: 'blue',
-        //textShadowOpacity: 1,
-        elevation: 10,
-        opacity:1,
-        padding:20,
-        borderRadius:15,
-        // background color must be set
-        backgroundColor : "rgba(150,100,150,0.9)", // invisible color
-        alignSelf:'center'}}>Cartoons</Text>
-        <Text>{'\n\n\n'}</Text>
-        <View style={{width:250,
-          padding:20,
-          alignSelf:'center',
-          backgroundColor:'#eeee',
-          shadowOffset:{width:10,height:10},
-          elevation:10,
-          alignItems:'center'}}>
-          <TouchableHighlight onPress={() => alert('He gives you a thumbs up of good will and acceptance')}>
-            <Image source={require('./bground_img/nice.png')} style={{width:200,height:220}}/>
-          </TouchableHighlight> 
-          <Text>{'\n'}Dude Chad</Text>
-        </View>
-        <Text>{'\n\n\n'}</Text>
-        <View style={{width:250,
-          padding:20,
-          alignSelf:'center',
-          backgroundColor:'#eeee',
-          shadowOffset:{width:10,height:10},
-          elevation:10,
-          alignItems:'center'}}>
-          <TouchableHighlight onPress={() => alert('He wishes you fortune at the end of your long, wearisome path')}>
-            <Image source={require('./bground_img/nice2.png')} style={{width:200,height:220}}/>
-          </TouchableHighlight> 
-          <Text>{'\n'}Big Brother</Text>
-        </View>
-        <Text>{'\n\n\n'}</Text>
-        <View style={{width:250,
-          padding:20,
-          alignSelf:'center',
-          backgroundColor:'#eeee',
-          shadowOffset:{width:10,height:10},
-          elevation:10,
-          alignItems:'center'}}>
-          <TouchableHighlight onPress={() => alert('He knows what you did last Wednesday')}>
-            <Image source={require('./bground_img/mocker.png')} style={{width:200,height:220}}/>
-          </TouchableHighlight> 
-          <Text>{'\n'}The Mocker</Text>
-        </View>
-        <Text>{'\n\n\n'}</Text>
-        <View style={{width:250,
-          padding:20,
-          alignSelf:'center',
-          backgroundColor:'#eeee',
-          shadowOffset:{width:10,height:10},
-          elevation:10,
-          alignItems:'center'}}>
-          <TouchableHighlight onPress={() => alert('He sees the good things in tough times')}>
-            <Image source={require('./bground_img/pained.png')} style={{width:200,height:220}}/>
-          </TouchableHighlight> 
-          <Text>{'\n'}John Sedlyf</Text>
-        </View>
-        <Text>{'\n\n\n'}</Text>
-        <View style={{width:250,
-          padding:20,
-          alignSelf:'center',
-          backgroundColor:'#eeee',
-          shadowOffset:{width:10,height:10},
-          elevation:10,
-          alignItems:'center'}}>
-          <TouchableHighlight onPress={() => alert("He's done putting up with your sh*t")}>
-            <Image source={require('./bground_img/bacchaman.png')} style={{width:200,height:220}}/>
-          </TouchableHighlight> 
-          <Text>{'\n'}Disappointed Kidman</Text>
-        </View>
-        </ScrollView>
-    </ImageBackground>
-  </View>
-)};
-//<Image source={require('./bground_img/hehelol.png')} style={{flex: 1, resizeMode: 'cover'}} />
-function getBackground({route})
-{
-  let color='darkblue';
-  if(route.name=='Home')
-  {
-    color = 'darkblue'
-  }
-  else if(route.name=='Feed')
-  {
-    color = 'green'
-  }
-  else if(route.name=='Settings')
-  {
-    color = 'yellow'
-  }
-  return color;
-}
 
 const HomeTabNavigator = ()=> (
   <Tab.Navigator screenOptions={({route})=>({
@@ -317,91 +176,61 @@ function Drawer_Content(props){
   return(
     <View>
       <Text>test Text</Text>
+      <Button title="Go to Details screen" 
+        color = 'orange'
+        onPress={()=>props.navigation.navigate('Details')}/>
     </View>
 
   );
 }
 
-function getHeaderTitle(route)
-{
-  const routeName = getFocusedRouteNameFromRoute(route)??'Home'
-  switch(routeName)
-  {
-    case 'Home':
-      return 'Home';
-    case 'Feed':
-      return 'Feed';
-    case 'Settings':
-      return 'Settings';
-  }
-}
+/*const ProfileScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Profile Screen</Text>
+      <Button
+        title="Click Here"
+        onPress={() => alert('Button Clicked!')}
+      />
+    </View>
+  );
+};
 
-function shouldHeaderBeShown(route)
-{
-  const routeName = getFocusedRouteNameFromRoute(route)??'Home';
-  switch(routeName)
-  {
-    case 'Home':
-      return false;
-  }
-}
+const ProfileStackScreen = ({navigation}) =>{
+  return(
+    <Stack.Navigator name = "Profile" 
+      screenOptions = {{
+        headerStyle : { shadowColor : 'violet', shadowOffset:3,backgroundColor:'darkgreen'},
+        headerTintColor : 'white',
+        headerTitleStyle: {fontFamily:'Impact',fontWeight:'bold'}
+      }}
+      headerMode='float'
+      animation = 'fade' 
+      >
+        
+        <Stack.Screen name = "Profile" options={({route})=>({
+          title:'Profile',
+          headerLeft : ()=>(
+            <Icon.Button name = "list" backgroundColor="green" color="white"
+            onPress = {()=>{navigation.openDrawer()}} />
+          )
+        })} component = {ProfileScreen}/>
+      </Stack.Navigator>
+  );
+}*/
 
 const App= ({navigation}) => {
   return(
     <NavigationContainer >
       <Drawer.Navigator initialRouteName="Home" 
-        drawerContent = {props=><Drawer_Content {...props} /> }
+        drawerContent = {({navigation})=><DrawerContent {...navigation} /> }
       >
         <Drawer.Screen name="Home" component={HomeTabNavigator/*HomeStackScreen*/}/>
         <Drawer.Screen name="Details" component={DetailsStackScreen} />
+        <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+        <Drawer.Screen name="Bookmark" component={BookmarkStackScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
 };
 export default App;
-
-const styles = StyleSheet.create({
-  drawerContent: {
-    flex: 1,
-  },
-  userInfoSection: {
-    paddingLeft: 20,
-  },
-  title: {
-    fontSize: 16,
-    marginTop: 3,
-    fontWeight: 'bold',
-  },
-  caption: {
-    fontSize: 14,
-    lineHeight: 14,
-  },
-  row: {
-    marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  section: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-  paragraph: {
-    fontWeight: 'bold',
-    marginRight: 3,
-  },
-  drawerSection: {
-    marginTop: 15,
-  },
-  bottomDrawerSection: {
-      marginBottom: 15,
-      borderTopColor: '#f4f4f4',
-      borderTopWidth: 1
-  },
-  preference: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-});
